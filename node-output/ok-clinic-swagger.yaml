@@ -9,16 +9,22 @@
     "url" : "/"
   } ],
   "tags" : [ {
-    "name" : "Pets",
+    "name" : "Pet",
     "description" : "Operations related to pets"
   }, {
-    "name" : "Owners",
+    "name" : "Owner",
     "description" : "Operations related to pet owners"
+  }, {
+    "name" : "Appointment",
+    "description" : "Operations related to appointments"
+  }, {
+    "name" : "MedicalRecords",
+    "description" : "Operations related to medical records"
   } ],
   "paths" : {
-    "/pets" : {
+    "/pet" : {
       "get" : {
-        "tags" : [ "Pets" ],
+        "tags" : [ "Pet" ],
         "summary" : "Get all registered pets",
         "description" : "Get all registered pets",
         "parameters" : [ {
@@ -34,24 +40,36 @@
           "200" : {
             "description" : "List of pets",
             "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
           }
         }
       },
       "post" : {
-        "tags" : [ "Pets" ],
+        "tags" : [ "Pet" ],
         "summary" : "Add a new pet",
         "description" : "Add a new pet",
         "responses" : {
           "201" : {
             "description" : "Pet created successfully",
             "content" : { }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
           }
         }
       }
     },
-    "/pets/{id}" : {
+    "/pet/{id}" : {
       "get" : {
-        "tags" : [ "Pets" ],
+        "tags" : [ "Pet" ],
         "summary" : "Get pet details by ID",
         "description" : "Get details of a specific pet by its ID",
         "parameters" : [ {
@@ -70,7 +88,7 @@
         }
       },
       "put" : {
-        "tags" : [ "Pets" ],
+        "tags" : [ "Pet" ],
         "summary" : "Update pet information",
         "description" : "Update the pet's info (petName, petSpecies, petAge)",
         "parameters" : [ {
@@ -85,13 +103,25 @@
           "200" : {
             "description" : "Pet updated successfully",
             "content" : { }
+          },
+          "400" : {
+            "description" : "Bad request - invalid update",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Pet not found",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
           }
         }
       }
     },
-    "/owners" : {
+    "/owner" : {
       "get" : {
-        "tags" : [ "Owners" ],
+        "tags" : [ "Owner" ],
         "summary" : "Get list of all owners",
         "description" : "Get list of all owners",
         "parameters" : [ {
@@ -107,24 +137,36 @@
           "200" : {
             "description" : "List of owners",
             "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
           }
         }
       },
       "post" : {
-        "tags" : [ "Owners" ],
+        "tags" : [ "Owner" ],
         "summary" : "Register a new pet owner",
         "description" : "Register a new pet owner",
         "responses" : {
           "201" : {
             "description" : "Owner registered successfully",
             "content" : { }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
           }
         }
       }
     },
-    "/owners/{id}" : {
+    "/owner/{id}" : {
       "get" : {
-        "tags" : [ "Owners" ],
+        "tags" : [ "Owner" ],
         "summary" : "Fetch details of a specific owner",
         "description" : "Get details of an owner by ID",
         "parameters" : [ {
@@ -138,6 +180,242 @@
         "responses" : {
           "200" : {
             "description" : "Owner details found",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Owner not found",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/appointment" : {
+      "get" : {
+        "tags" : [ "Appointment" ],
+        "summary" : "Retrieve all appointments",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "(Optional) Filter by appointment id",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : { }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of appointments",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Appointment" ],
+        "summary" : "Book a new appointment",
+        "responses" : {
+          "201" : {
+            "description" : "Appointment booked successfully",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/appointment/{id}" : {
+      "get" : {
+        "tags" : [ "Appointment" ],
+        "summary" : "Get details of a specific appointment",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : { }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Appointment details found",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Appointment not found",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Appointment" ],
+        "summary" : "Update or reschedule an appointment",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : { }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Appointment updated successfully",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "Bad request - invalid update",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Appointment not found",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Appointment" ],
+        "summary" : "Cancel an appointment",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : { }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Appointment cancelled successfully",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Appointment not found",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/records" : {
+      "get" : {
+        "tags" : [ "MedicalRecords" ],
+        "summary" : "List all medical records",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "(Optional) Filter by record id",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : { }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of medical records",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "MedicalRecords" ],
+        "summary" : "Add a new medical record for a pet",
+        "responses" : {
+          "201" : {
+            "description" : "Medical record added successfully",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      }
+    },
+    "/records/{id}" : {
+      "get" : {
+        "tags" : [ "MedicalRecords" ],
+        "summary" : "View medical record by ID",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : { }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Medical record details found",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Medical record not found",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : { }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "MedicalRecords" ],
+        "summary" : "Update a medical record",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : { }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Medical record updated successfully",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "Bad request - invalid update",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "Medical record not found",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "Internal server error",
             "content" : { }
           }
         }
