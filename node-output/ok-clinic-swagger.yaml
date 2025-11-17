@@ -8,8 +8,6 @@
   "servers" : [ {
     "url" : "https://virtserver.swaggerhub.com/xavieruniversityaten/OK-Clinic-API/1.0.0",
     "description" : "SwaggerHub API Auto Mocking"
-  }, {
-    "url" : "http://OK-Clinic-API"
   } ],
   "tags" : [ {
     "name" : "Pet",
@@ -23,6 +21,21 @@
   }, {
     "name" : "MedicalRecords",
     "description" : "Operations related to medical records"
+  }, {
+    "name" : "Invoice",
+    "description" : "Operations related to billing invoices"
+  }, {
+    "name" : "Staff",
+    "description" : "Operations related to clinic staff (receptionist, admin, vet)"
+  }, {
+    "name" : "Notifications",
+    "description" : "Operations related to notifications"
+  }, {
+    "name" : "Services",
+    "description" : "Operations related to clinic services"
+  }, {
+    "name" : "Feedback",
+    "description" : "Operations for feedback on OK Clinic"
   } ],
   "paths" : {
     "/pet" : {
@@ -534,6 +547,433 @@
           }
         }
       }
+    },
+    "/invoice" : {
+      "get" : {
+        "tags" : [ "Invoice" ],
+        "summary" : "Retrieve all invoices",
+        "responses" : {
+          "200" : {
+            "description" : "List of invoices",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Invoice"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Invoice" ],
+        "summary" : "Create a billing invoice",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Invoice"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Invoice created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Invoice"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/invoice/{id}" : {
+      "get" : {
+        "tags" : [ "Invoice" ],
+        "summary" : "Fetch specific invoice",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Invoice details found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Invoice"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Invoice not found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Invoice" ],
+        "summary" : "Update invoice/payment status",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/invoice_id_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Invoice updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Invoice"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request - invalid update"
+          },
+          "404" : {
+            "description" : "Invoice not found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/staff" : {
+      "get" : {
+        "tags" : [ "Staff" ],
+        "summary" : "List all staff members",
+        "responses" : {
+          "200" : {
+            "description" : "List of clinic staff",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Staff"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Staff" ],
+        "summary" : "Add clinic staff (receptionist, admin, vet)",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Staff"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Clinic staff added successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Staff"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/staff/{id}" : {
+      "get" : {
+        "tags" : [ "Staff" ],
+        "summary" : "View staff details",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Staff member details found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Staff"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Staff member not found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/notifications" : {
+      "get" : {
+        "tags" : [ "Notifications" ],
+        "summary" : "List all notifications",
+        "responses" : {
+          "200" : {
+            "description" : "List of notifications",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Notifications" ],
+        "summary" : "Create/send a notification (e.g., reminders)",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Notification"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Notification created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Notification"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/notifications/{id}" : {
+      "get" : {
+        "tags" : [ "Notifications" ],
+        "summary" : "Get notification details",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Notification details found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Notification"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Notification not found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/services" : {
+      "get" : {
+        "tags" : [ "Services" ],
+        "summary" : "List all available services",
+        "responses" : {
+          "200" : {
+            "description" : "List of available services",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Service"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Services" ],
+        "summary" : "Add new clinic service",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Service"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Clinic service added successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Service"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/feedback" : {
+      "get" : {
+        "tags" : [ "Feedback" ],
+        "summary" : "List feedback entries",
+        "responses" : {
+          "200" : {
+            "description" : "List of feedback entries",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Feedback"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Feedback" ],
+        "summary" : "Submit feedback on service or staff",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Feedback"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Feedback submitted successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Feedback"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request - invalid input"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -644,6 +1084,128 @@
           }
         }
       },
+      "Invoice" : {
+        "required" : [ "appointmentID", "isPaid", "paymentDueDate", "serviceID" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "Unique identifier for the invoice"
+          },
+          "appointmentID" : {
+            "type" : "integer",
+            "description" : "Foreign Key - references an Appointment by ID"
+          },
+          "serviceID" : {
+            "type" : "integer",
+            "description" : "Foreign Key - references a service by ID"
+          },
+          "paymentDueDate" : {
+            "type" : "string",
+            "description" : "Due date for payment (YYYY-MM-DD)",
+            "format" : "date"
+          },
+          "isPaid" : {
+            "type" : "boolean",
+            "description" : "Invoice payment status (true or false)"
+          }
+        }
+      },
+      "Staff" : {
+        "required" : [ "isAvailable", "role", "staffFullName" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "Unique identifier for the staff member"
+          },
+          "staffFullName" : {
+            "type" : "string"
+          },
+          "role" : {
+            "type" : "string",
+            "description" : "Role of staff member (vet, receptionist, admin)",
+            "enum" : [ "vet", "receptionist", "admin" ]
+          },
+          "isAvailable" : {
+            "type" : "boolean",
+            "description" : "Indicates if staff is available (true or false)"
+          }
+        }
+      },
+      "Notification" : {
+        "required" : [ "message", "ownerID", "schedule", "staffID" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "Unique identifier for the notification"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "Notification message content"
+          },
+          "schedule" : {
+            "type" : "string",
+            "description" : "Schedule for notification (YYYY-MM-DD HH:MM)",
+            "format" : "date-time"
+          },
+          "staffID" : {
+            "type" : "integer",
+            "description" : "Foreign Key - references a Staff by ID"
+          },
+          "ownerID" : {
+            "type" : "integer",
+            "description" : "Foreign Key - references an Owner by ID"
+          }
+        }
+      },
+      "Service" : {
+        "required" : [ "serviceDescription", "serviceFee", "serviceName" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "Unique identifier for the service"
+          },
+          "serviceName" : {
+            "type" : "string"
+          },
+          "serviceFee" : {
+            "type" : "number",
+            "description" : "Fee for the service (decimal)",
+            "format" : "float"
+          },
+          "serviceDescription" : {
+            "type" : "string",
+            "description" : "Description of the service"
+          }
+        }
+      },
+      "Feedback" : {
+        "required" : [ "comment", "ownerID", "rating" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "Unique identifier for the feedback entry"
+          },
+          "ownerID" : {
+            "type" : "integer",
+            "description" : "Foreign Key - references an Owner by ID"
+          },
+          "rating" : {
+            "maximum" : 5,
+            "minimum" : 1,
+            "type" : "integer",
+            "description" : "Rating (integer from 1 to 5)"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "Optional comment or review"
+          }
+        }
+      },
       "appointment_id_body" : {
         "type" : "object",
         "properties" : {
@@ -671,6 +1233,14 @@
           "dateUponRecord" : {
             "type" : "string",
             "format" : "date"
+          }
+        }
+      },
+      "invoice_id_body" : {
+        "type" : "object",
+        "properties" : {
+          "isPaid" : {
+            "type" : "boolean"
           }
         }
       }
